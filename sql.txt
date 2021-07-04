@@ -1,0 +1,36 @@
+1-
+select p.nome, e.evento from tabela_pessoa p join tabela_evento e on p.id = e.pessoa_id
+
+2-
+select nome from tabela_pessoa where nome like '%Doe'
+
+3-
+insert into tabela_evento (evento,pessoa_id) values ('Evento E',(select id from tabela_pessoa where nome = 'Lisa Romero'))
+
+4-
+UPDATE tabela_evento
+SET pessoa_id = (select id from tabela_pessoa where nome = 'John Doe')
+WHERE evento = 'Evento D'
+
+5-
+delete from tabela_evento where evento = 'Evendo B'
+
+6-
+delete from tabela_pessoa where id not in (select pessoa_id from tabela_evento)
+
+7-
+Alter table tabela_pessoa Add idade int
+
+
+8-
+create table tabela_telefone(
+	id int primary key identity,
+	telefone varchar(200),
+	pessoa_id int foreign key references tabela_pessoa
+)
+
+9-
+CREATE UNIQUE INDEX idx_telefone ON tabela_telefone (telefone)
+
+10-
+DROP TABLE tabela_telefone
