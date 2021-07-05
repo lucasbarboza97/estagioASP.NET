@@ -46,12 +46,10 @@ namespace ProjetoBebidas
                 reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
-
                     while (reader.Read())
                     {
                         codigo = reader[0].ToString();
                         nome = reader[1].ToString();
-
 
                         dgCodigos.Rows.Add(codigo, nome);
                     }
@@ -77,6 +75,8 @@ namespace ProjetoBebidas
         // Carregamento do form Compra
         private void Compra_Load(object sender, EventArgs e)
         {
+            carregaArray();
+
             lblDataCompra.Visible = false;
             lblTotal.Visible = false;
             lblTroco.Visible = false;
@@ -108,31 +108,86 @@ namespace ProjetoBebidas
 
         }
 
+
+        // Carrega array para acrescentar no "carrinho" de compras
+        string[] produtos = new string[10];
+        string[] codigo = new string[10];
+        double[] valor = new double[10];
+        private void carregaArray()
+        {
+
+            SqlConnection conSelect = new SqlConnection();
+            string sql = "SELECT codigo, nome, preco, qtd FROM estoque_bebida";
+            SqlCommand cmd = new SqlCommand(sql, conSelect);
+            conSelect.ConnectionString = Properties.Settings.Default.connectionString;
+            cmd.CommandType = CommandType.Text;
+            SqlDataReader readerSelect;
+            conSelect.Open();
+
+            try
+            {
+                readerSelect = cmd.ExecuteReader();
+                if (readerSelect.HasRows)
+                {
+                    int indice = 0;
+                    while (readerSelect.Read())
+                    {
+                        codigo[indice] = readerSelect[0].ToString();
+                        produtos[indice] = readerSelect[1].ToString();
+                        valor[indice] = Convert.ToDouble(readerSelect[2].ToString());
+                        indice++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                conSelect.Close();
+            }
+        }
+
+
+        double soma;
         private void txtCodigo_TextChanged(object sender, EventArgs e)
         {
+            lblTotal.Visible = true;
+            txtBoxDinheiroRecebido.Enabled = true;
             if (txtCodigo.Text.Length == 3)
             {
                 int indice = 0;
-                for (int prod = 1; prod < codigo.Length; prod++)
+                for (int prod = 0; prod < codigo.Length; prod++)
                 {
                     if (txtCodigo.Text == codigo[prod])
                     {
                         indice = prod;
                     }
                 }
-
                 if (indice == 0)
                 {
-                    MessageBox.Show("Produto não encontrado");
+                    MessageBox.Show("Produto não encontrado: ");
 
                 }
                 else
                 {
-                    
+                    lstCarrinho.Items.Add(txtCodigo.Text + " -- " + produtos[indice] + "--R$" + valor[indice]);
+
+                    soma += valor[indice];
+                    lblTotal.Text = ("R$ " + soma);
+                    selecionaTxtCodigo();
                 }
+
             }
         }
 
-
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            for (int i = 0; i < codigo.Length; i++)
+            {
+                MessageBox.Show(codigo[i] + produtos[i] + valor[i]);
+            }
+        }
     }
 }
