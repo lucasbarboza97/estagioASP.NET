@@ -1,0 +1,7 @@
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\3-NumerosPrimos\3-\bin\Debug\3-.exe.config
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\3-NumerosPrimos\3-\bin\Debug\3-.exe
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\3-NumerosPrimos\3-\bin\Debug\3-.pdb
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\3-NumerosPrimos\3-\obj\Debug\3-.csproj.AssemblyReference.cache
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\3-NumerosPrimos\3-\obj\Debug\3-.csproj.CoreCompileInputs.cache
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\3-NumerosPrimos\3-\obj\Debug\3-.exe
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\3-NumerosPrimos\3-\obj\Debug\3-.pdb

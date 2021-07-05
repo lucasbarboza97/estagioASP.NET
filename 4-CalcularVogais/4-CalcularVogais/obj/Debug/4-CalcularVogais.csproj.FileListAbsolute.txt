@@ -1,0 +1,7 @@
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\4-CalcularVogais\4-CalcularVogais\bin\Debug\4-CalcularVogais.exe.config
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\4-CalcularVogais\4-CalcularVogais\bin\Debug\4-CalcularVogais.exe
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\4-CalcularVogais\4-CalcularVogais\bin\Debug\4-CalcularVogais.pdb
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\4-CalcularVogais\4-CalcularVogais\obj\Debug\4-CalcularVogais.csproj.CoreCompileInputs.cache
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\4-CalcularVogais\4-CalcularVogais\obj\Debug\4-CalcularVogais.exe
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\4-CalcularVogais\4-CalcularVogais\obj\Debug\4-CalcularVogais.pdb
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\4-CalcularVogais\4-CalcularVogais\obj\Debug\4-CalcularVogais.csproj.AssemblyReference.cache

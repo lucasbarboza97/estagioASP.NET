@@ -1,0 +1,7 @@
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\2-Premio\2-Premio\bin\Debug\2-Premio.exe.config
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\2-Premio\2-Premio\bin\Debug\2-Premio.exe
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\2-Premio\2-Premio\bin\Debug\2-Premio.pdb
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\2-Premio\2-Premio\obj\Debug\2-Premio.csproj.AssemblyReference.cache
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\2-Premio\2-Premio\obj\Debug\2-Premio.csproj.CoreCompileInputs.cache
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\2-Premio\2-Premio\obj\Debug\2-Premio.exe
+C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\2-Premio\2-Premio\obj\Debug\2-Premio.pdb
