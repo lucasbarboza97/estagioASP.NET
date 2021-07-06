@@ -13,9 +13,10 @@ namespace ProjetoBebidas
 {
     public partial class Compra : Form
     {
-        private string dataNow = DateTime.Now.ToString("dd'-'MM'-'yyyy");
+        private string dataNow = DateTime.Now.ToString("yyyy-MM-dd");
         private double troco;
         private double soma;
+
         public Compra()
         {
             InitializeComponent();
@@ -104,23 +105,19 @@ namespace ProjetoBebidas
             lblDataCompra.Text = ("Data compra: " + dataNow);
         }
 
+
         // Botão para finalizar a compra e enviar os itens para o BD
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
-                int qtdProdutoSelecionado;
-                string bebidaSelecionada;
                 for (int i = 0; i < dgCarrinho.Rows.Count; i++)
                 {
-                    qtdProdutoSelecionado = Convert.ToInt32(dgCarrinho.Rows[i].Cells[1].ToString());
-                    bebidaSelecionada = dgCarrinho.Rows[i].Cells[0].Value.ToString();
-
-                    MessageBox.Show(qtdProdutoSelecionado.ToString());
-
+                    string bebidaSelecionada = dgCarrinho.Rows[i].Cells[0].Value.ToString();
+                    int qtdSelecionada = Convert.ToInt32(dgCarrinho.Rows[i].Cells[1].Value.ToString()); ;
                     SqlConnection conInsertProduto = new SqlConnection();
                     string sqlInsertProduto = "INSERT produto_comprado (qtd_comprada,id_estoque_bebida) " +
-                        "VALUES (" + qtdProdutoSelecionado + "," +
+                        "VALUES (" + qtdSelecionada + "," +
                         "(SELECT id FROM estoque_bebida WHERE nome = '" + bebidaSelecionada + "'))";
                     SqlCommand cmdInsertProduto = new SqlCommand(sqlInsertProduto, conInsertProduto);
                     conInsertProduto.ConnectionString = Properties.Settings.Default.connectionString;
@@ -143,9 +140,10 @@ namespace ProjetoBebidas
                         conInsertProduto.Close();
                     }
                 }
+
                 SqlConnection conInsert = new SqlConnection();
                 string sqlInsert = "INSERT compra_bebida (data_compra,valor,id_produto_comprado) " +
-                    "VALUES('" + dataNow + "', " + soma + ", (SELECT TOP 1 id FROM produto_comprado GROUP BY id ORDER BY id DESC))";
+                    "VALUES(" + dataNow + "," + soma + ",(SELECT TOP 1 id FROM produto_comprado ORDER BY id DESC))";
                 SqlCommand cmdInsert = new SqlCommand(sqlInsert, conInsert);
                 conInsert.ConnectionString = Properties.Settings.Default.connectionString;
                 cmdInsert.CommandType = CommandType.Text;
