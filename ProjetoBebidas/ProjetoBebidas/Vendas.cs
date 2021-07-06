@@ -20,13 +20,14 @@ namespace ProjetoBebidas
             InitializeComponent();
         }
 
+        // Carrega o datagrid com todas as vendas listadas no DB
         private void carregaVendas()
         {
             dataGridView1.Rows.Clear();
 
             Style modelo = new Style();
             dataGridView1 = modelo.styleDataGridView(dataGridView1);
-            DateTime dataVenda;
+            string dataVenda;
             int qtd;
             double valorVenda;
 
@@ -36,7 +37,7 @@ namespace ProjetoBebidas
             dataGridView1.Columns[2].Name = "Valor total";
 
             SqlConnection con = new SqlConnection();
-            string sql = "SELECT data_compra,qtdCompra,valor FROM compra_bebida";
+            string sql = "SELECT data_compra,qtd_compra,valor FROM compra_bebida";
             SqlCommand cmd = new SqlCommand(sql, con);
             con.ConnectionString = Properties.Settings.Default.connectionString;
             cmd.CommandType = CommandType.Text;
@@ -51,12 +52,11 @@ namespace ProjetoBebidas
 
                     while (reader.Read())
                     {
-                        dataVenda = Convert.ToDateTime(reader[0].ToString());
+                        dataVenda = reader[0].ToString();
                         qtd = Convert.ToInt32(reader[1].ToString());
                         valorVenda = Convert.ToDouble(reader[2].ToString());
 
                         dataGridView1.Rows.Add(dataVenda,qtd, valorVenda);
-
                         valorTotal += valorVenda;
                     }
                 }

@@ -196,8 +196,13 @@ namespace ProjetoBebidas
             }
             catch (Exception ex)
             {
-                con.Close();
                 throw ex;
+
+            }
+            finally
+            {
+
+                con.Close();
             }
         }
 
