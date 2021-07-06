@@ -13,6 +13,7 @@ namespace ProjetoBebidas
 {
     public partial class Compra : Form
     {
+        // Váriáveis
         private string dataNow = DateTime.Now.ToString("dd/MM/yyyy");
         private double troco;
         private double soma;
@@ -22,6 +23,7 @@ namespace ProjetoBebidas
         {
             InitializeComponent();
         }
+
 
         // Carrega o datagrid com a lista de códigos de bebidas
         private void carregaListaDeCodigos()
@@ -74,6 +76,139 @@ namespace ProjetoBebidas
             }
         }
 
+        // Insere a compra no DB
+        private void insereCompra()
+        {
+            try
+            {
+                SqlConnection conInsert = new SqlConnection();
+                string sqlInsert = "INSERT compra_bebida(qtd_compra,data_compra,valor)" +
+                    "VALUES(" + qtdCarrinho + ",'" + DateTime.Now.ToString() + "'," + qtdCarrinho + ")";
+                SqlCommand cmdInsert = new SqlCommand(sqlInsert, conInsert);
+                conInsert.ConnectionString = Properties.Settings.Default.connectionString;
+                cmdInsert.CommandType = CommandType.Text;
+                conInsert.Open();
+                try
+                {
+                    int cmdExecutaInsertCompra = cmdInsert.ExecuteNonQuery();
+                    if (cmdExecutaInsertCompra > 0)
+                    {
+                        insereProdutosCompra();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro, compra não inserida: " + ex.ToString());
+                }
+                finally
+                {
+                    conInsert.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Produto não encontrado." + ex.ToString());
+            }
+        }
+
+        // Insere produtos na tabela relacinada a compra
+        private void insereProdutosCompra()
+        {
+            for (int i = 0; i < dgCarrinho.Rows.Count; i++)
+            {
+                string bebidaSelecionada = dgCarrinho.Rows[i].Cells[0].Value.ToString();
+                int qtdSelecionada = Convert.ToInt32(dgCarrinho.Rows[i].Cells[1].Value.ToString()); ;
+                SqlConnection conInsertProduto = new SqlConnection();
+                string sqlInsertProduto = "INSERT produto_comprado (qtd_comprada,id_estoque_bebida,compra_bebida_id) " +
+                    "VALUES (" + qtdSelecionada + "," +
+                    "(SELECT id FROM estoque_bebida WHERE nome = '" + bebidaSelecionada + "'),(SELECT TOP 1 id FROM compra_bebida ORDER BY id DESC))";
+                SqlCommand cmdInsertProduto = new SqlCommand(sqlInsertProduto, conInsertProduto);
+                conInsertProduto.ConnectionString = Properties.Settings.Default.connectionString;
+                cmdInsertProduto.CommandType = CommandType.Text;
+                conInsertProduto.Open();
+                try
+                {
+                    // Remove produtos comprado
+                    int cmdExecutaInsertProdutos = cmdInsertProduto.ExecuteNonQuery();
+                    if (cmdExecutaInsertProdutos > 0)
+                    {
+                        int qtdEstoqueAnterior;
+                        int qtdEstoqueSubtraido;
+
+                        SqlConnection con = new SqlConnection();
+                        string sqlQtd = "SELECT qtd FROM estoque_bebida WHERE nome='" + bebidaSelecionada + "'";
+                        SqlCommand cmdQtd = new SqlCommand(sqlQtd, con);
+                        SqlDataReader reader;
+                        con.ConnectionString = Properties.Settings.Default.connectionString;
+                        con.Open();
+                        try
+                        {
+                            reader = cmdQtd.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                qtdEstoqueAnterior = Convert.ToInt32(reader[0].ToString());
+                                if (qtdSelecionada <= qtdEstoqueAnterior)
+                                {
+
+                                    qtdEstoqueSubtraido = qtdEstoqueAnterior - qtdSelecionada;
+
+                                    SqlConnection conUp = new SqlConnection();
+                                    string sqlUpdate = "UPDATE estoque_bebida SET qtd=" + qtdEstoqueSubtraido + "WHERE nome='" + bebidaSelecionada + "'";
+                                    SqlCommand cmdUpdate = new SqlCommand(sqlUpdate, conUp);
+                                    cmdUpdate.CommandType = CommandType.Text;
+                                    conUp.ConnectionString = Properties.Settings.Default.connectionString;
+                                    conUp.Open();
+
+                                    try
+                                    {
+                                        int indice = cmdUpdate.ExecuteNonQuery();
+                                        if (indice > 0)
+                                        {
+                                            MessageBox.Show("Compra registrada!");
+                                            carregaListaDeCodigos();
+                                            selecionaTxtCodigo();
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show("Erro: " + ex.ToString());
+                                    }
+                                    finally
+                                    {
+                                        con.Close();
+                                        conUp.Close();
+
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("A quantidade de itens para remoção deve ser de até: " + qtdEstoqueAnterior);
+                                }
+
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+                        finally
+                        {
+                            con.Close();
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro, bebida não inserida: " + ex.ToString());
+                }
+                finally
+                {
+                    conInsertProduto.Close();
+                }
+            }
+        }
+
         // Da o focus no text box codigo e limpa os txts de código e quantidade
         private void selecionaTxtCodigo()
         {
@@ -112,131 +247,10 @@ namespace ProjetoBebidas
             qtdCarrinho = 0;
         }
 
-
         // Botão para finalizar a compra e enviar os itens para o BD
         private void button1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                SqlConnection conInsert = new SqlConnection();
-                string sqlInsert = "INSERT compra_bebida(qtd_compra,data_compra,valor)" +
-                    "VALUES(" + qtdCarrinho + ",'" + DateTime.Now.ToString() + "'," + qtdCarrinho + ")";
-                SqlCommand cmdInsert = new SqlCommand(sqlInsert, conInsert);
-                conInsert.ConnectionString = Properties.Settings.Default.connectionString;
-                cmdInsert.CommandType = CommandType.Text;
-                conInsert.Open();
-                try
-                {
-                    int cmdExecutaInsertCompra = cmdInsert.ExecuteNonQuery();
-                    if (cmdExecutaInsertCompra > 0)
-                    {
-                        for (int i = 0; i < dgCarrinho.Rows.Count; i++)
-                        {
-                            string bebidaSelecionada = dgCarrinho.Rows[i].Cells[0].Value.ToString();
-                            int qtdSelecionada = Convert.ToInt32(dgCarrinho.Rows[i].Cells[1].Value.ToString()); ;
-                            SqlConnection conInsertProduto = new SqlConnection();
-                            string sqlInsertProduto = "INSERT produto_comprado (qtd_comprada,id_estoque_bebida,compra_bebida_id) " +
-                                "VALUES (" + qtdSelecionada + "," +
-                                "(SELECT id FROM estoque_bebida WHERE nome = '" + bebidaSelecionada + "'),(SELECT TOP 1 id FROM compra_bebida ORDER BY id DESC))";
-                            SqlCommand cmdInsertProduto = new SqlCommand(sqlInsertProduto, conInsertProduto);
-                            conInsertProduto.ConnectionString = Properties.Settings.Default.connectionString;
-                            cmdInsertProduto.CommandType = CommandType.Text;
-                            conInsertProduto.Open();
-                            try
-                            {
-                                int cmdExecutaInsertProdutos = cmdInsertProduto.ExecuteNonQuery();
-                                if (cmdExecutaInsertProdutos > 0)
-                                {
-                                    int qtdEstoqueAnterior;
-                                    int qtdEstoqueSubtraido;
-
-                                    SqlConnection con = new SqlConnection();
-                                    string sqlQtd = "SELECT qtd FROM estoque_bebida WHERE nome='" + bebidaSelecionada + "'";
-                                    SqlCommand cmdQtd = new SqlCommand(sqlQtd, con);
-                                    SqlDataReader reader;
-                                    con.ConnectionString = Properties.Settings.Default.connectionString;
-                                    con.Open();
-                                    try
-                                    {
-                                        reader = cmdQtd.ExecuteReader();
-                                        if (reader.Read())
-                                        {
-                                            qtdEstoqueAnterior = Convert.ToInt32(reader[0].ToString());
-                                            if (qtdSelecionada <= qtdEstoqueAnterior)
-                                            {
-
-                                                qtdEstoqueSubtraido = qtdEstoqueAnterior - qtdSelecionada;
-
-                                                SqlConnection conUp = new SqlConnection();
-                                                string sqlUpdate = "UPDATE estoque_bebida SET qtd=" + qtdEstoqueSubtraido + "WHERE nome='" + bebidaSelecionada + "'";
-                                                SqlCommand cmdUpdate = new SqlCommand(sqlUpdate, conUp);
-                                                cmdUpdate.CommandType = CommandType.Text;
-                                                conUp.ConnectionString = Properties.Settings.Default.connectionString;
-                                                conUp.Open();
-
-                                                try
-                                                {
-                                                    int indice = cmdUpdate.ExecuteNonQuery();
-                                                    if (indice > 0)
-                                                    {
-                                                        MessageBox.Show("Compra registrada!");
-                                                        carregaListaDeCodigos();
-                                                        selecionaTxtCodigo();
-                                                    }
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    MessageBox.Show("Erro: " + ex.ToString());
-                                                }
-                                                finally
-                                                {
-                                                    con.Close();
-                                                    conUp.Close();
-                                                    
-                                                }
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("A quantidade de itens para remoção deve ser de até: " + qtdEstoqueAnterior);
-                                            }
-
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        throw ex;
-                                    }
-                                    finally
-                                    {
-                                        con.Close();
-                                    }
-
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("Erro, bebida não inserida: " + ex.ToString());
-                            }
-                            finally
-                            {
-                                conInsertProduto.Close();
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Erro, compra não inserida: " + ex.ToString());
-                }
-                finally
-                {
-                    conInsert.Close();
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Produto não encontrado." + ex.ToString());
-            }                 
+            insereCompra(); 
         }
 
         // Botão para colocar itens no carrinho. Habilitado ao clicar em nova compra.
@@ -337,7 +351,7 @@ namespace ProjetoBebidas
 
 
 
-
+        // Não utilizado
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
