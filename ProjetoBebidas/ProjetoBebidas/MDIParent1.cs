@@ -30,5 +30,12 @@ namespace ProjetoBebidas
             swingTrade.MdiParent = this;
             swingTrade.Show();
         }
+
+        private void vendasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Vendas swingTrade = new Vendas();
+            swingTrade.MdiParent = this;
+            swingTrade.Show();
+        }
     }
 }

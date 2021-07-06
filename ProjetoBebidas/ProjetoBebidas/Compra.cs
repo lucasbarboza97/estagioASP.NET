@@ -107,44 +107,70 @@ namespace ProjetoBebidas
         // Botão para finalizar a compra e enviar os itens para o BD
         private void button1_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection();
-            string sql = "SELECT TOP 1 id FROM compra_bebida ORDER BY id DESC";
-            SqlCommand cmd = new SqlCommand(sql, con);
-            con.ConnectionString = Properties.Settings.Default.connectionString;
-            cmd.CommandType = CommandType.Text;
-            SqlDataReader reader;
-            con.Open();
             try
             {
-                reader = cmd.ExecuteReader();
-                if (reader.Read())
+                int qtdProdutoSelecionado;
+                string bebidaSelecionada;
+                for (int i = 0; i < dgCarrinho.Rows.Count; i++)
                 {
-                    int id = Convert.ToInt32(reader[0].ToString());
+                    qtdProdutoSelecionado = Convert.ToInt32(dgCarrinho.Rows[i].Cells[1].ToString());
+                    bebidaSelecionada = dgCarrinho.Rows[i].Cells[0].Value.ToString();
 
-                    SqlConnection conInsert = new SqlConnection();
-                    string sqlInsert = "INSERT compra_bebida (id,data,valor,id_produto_compra) VALUES(" + id + "," + Convert.ToDateTime(lblDataCompra.Text) + ", " + soma + ", " + id + ")";
-                    SqlCommand cmdInsert = new SqlCommand(sqlInsert, conInsert);
-                    conInsert.ConnectionString = Properties.Settings.Default.connectionString;
-                    cmdInsert.CommandType = CommandType.Text;
-                    conInsert.Open();
+                    MessageBox.Show(qtdProdutoSelecionado.ToString());
+
+                    SqlConnection conInsertProduto = new SqlConnection();
+                    string sqlInsertProduto = "INSERT produto_comprado (qtd_comprada,id_estoque_bebida) " +
+                        "VALUES (" + qtdProdutoSelecionado + "," +
+                        "(SELECT id FROM estoque_bebida WHERE nome = '" + bebidaSelecionada + "'))";
+                    SqlCommand cmdInsertProduto = new SqlCommand(sqlInsertProduto, conInsertProduto);
+                    conInsertProduto.ConnectionString = Properties.Settings.Default.connectionString;
+                    cmdInsertProduto.CommandType = CommandType.Text;
+                    conInsertProduto.Open();
                     try
                     {
-
+                        int cmdExecutaInsertProdutos = cmdInsertProduto.ExecuteNonQuery();
+                        if (cmdExecutaInsertProdutos > 0)
+                        {
+                            MessageBox.Show("Bebida inserida.");
+                        }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        throw ex;
+                        MessageBox.Show("Erro, bebida não inserida: " + ex.ToString());
                     }
+                    finally
+                    {
+                        conInsertProduto.Close();
+                    }
+                }
+                SqlConnection conInsert = new SqlConnection();
+                string sqlInsert = "INSERT compra_bebida (data_compra,valor,id_produto_comprado) " +
+                    "VALUES('" + dataNow + "', " + soma + ", (SELECT TOP 1 id FROM produto_comprado GROUP BY id ORDER BY id DESC))";
+                SqlCommand cmdInsert = new SqlCommand(sqlInsert, conInsert);
+                conInsert.ConnectionString = Properties.Settings.Default.connectionString;
+                cmdInsert.CommandType = CommandType.Text;
+                conInsert.Open();
+                try
+                {
+                    int cmdExecutaInsertCompra = cmdInsert.ExecuteNonQuery();
+                    if (cmdExecutaInsertCompra > 0)
+                    {
+                        MessageBox.Show("Compra inserida com sucesso!");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro, compra não inserida: " + ex.ToString());
+                }
+                finally
+                {
+                    conInsert.Close();
                 }
             }
             catch(Exception ex)
             {
-                throw ex;
-            }
-            finally
-            {
-                con.Close();
-            }
+                MessageBox.Show("Produto não encontrado." + ex.ToString());
+            }                 
         }
 
         // Botão para colocar itens no carrinho. Habilitado ao clicar em nova compra.
@@ -217,24 +243,34 @@ namespace ProjetoBebidas
         // Botão para verificar troco, só é habilitado quando um item é colocado no carrinho.
         private void btnVerificarTroco_Click(object sender, EventArgs e)
         {
-            double dinheiroRecebido = Convert.ToDouble(txtDinheiro.Text);
-            troco = dinheiroRecebido - soma;
+            try
+            {
+                double dinheiroRecebido = Convert.ToDouble(txtDinheiro.Text);
+                troco = dinheiroRecebido - soma;
 
-            btnFinalizarCompra.Enabled = true;
+                btnFinalizarCompra.Enabled = true;
 
-            if (troco < 0)
-            {
-                lblTroco.Text = "Falta: R$" + (troco*(-1));
+                if (troco < 0)
+                {
+                    lblTroco.Text = "Falta: R$" + (troco * (-1));
+                }
+                else if (dinheiroRecebido > soma)
+                {
+                    lblTroco.Text = ("Troco: R$: " + (troco));
+                }
+                else
+                {
+                    lblTroco.Text = ("Tudo certo!");
+                }
             }
-            else if(dinheiroRecebido > soma)
+            catch (Exception ex)
             {
-                lblTroco.Text = ("Troco: R$: " + (troco));
+                MessageBox.Show("Dinheiro não inserido." + ex.ToString());
             }
-            else
-            {
-                lblTroco.Text = ("Tudo certo!");
-            }
+    
         }
+
+
 
 
 
