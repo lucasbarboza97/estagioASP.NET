@@ -5,3 +5,10 @@ C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\1-Fatorial\1-Fatorial\bi
 C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\1-Fatorial\1-Fatorial\bin\Debug\1-Fatorial.pdb
 C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\1-Fatorial\1-Fatorial\obj\Debug\1-Fatorial.exe
 C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\1-Fatorial\1-Fatorial\obj\Debug\1-Fatorial.pdb
+C:\Programas Mundial\estagioASP.NET\1-Fatorial\1-Fatorial\bin\Debug\1-Fatorial.exe.config
+C:\Programas Mundial\estagioASP.NET\1-Fatorial\1-Fatorial\bin\Debug\1-Fatorial.exe
+C:\Programas Mundial\estagioASP.NET\1-Fatorial\1-Fatorial\bin\Debug\1-Fatorial.pdb
+C:\Programas Mundial\estagioASP.NET\1-Fatorial\1-Fatorial\obj\Debug\1-Fatorial.csproj.AssemblyReference.cache
+C:\Programas Mundial\estagioASP.NET\1-Fatorial\1-Fatorial\obj\Debug\1-Fatorial.csproj.CoreCompileInputs.cache
+C:\Programas Mundial\estagioASP.NET\1-Fatorial\1-Fatorial\obj\Debug\1-Fatorial.exe
+C:\Programas Mundial\estagioASP.NET\1-Fatorial\1-Fatorial\obj\Debug\1-Fatorial.pdb

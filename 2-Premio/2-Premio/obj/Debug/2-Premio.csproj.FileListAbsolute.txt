@@ -5,3 +5,7 @@ C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\2-Premio\2-Premio\obj\De
 C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\2-Premio\2-Premio\obj\Debug\2-Premio.csproj.CoreCompileInputs.cache
 C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\2-Premio\2-Premio\obj\Debug\2-Premio.exe
 C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\2-Premio\2-Premio\obj\Debug\2-Premio.pdb
+C:\Programas Mundial\estagioASP.NET\2-Premio\2-Premio\obj\Debug\2-Premio.csproj.AssemblyReference.cache
+C:\Programas Mundial\estagioASP.NET\2-Premio\2-Premio\obj\Debug\2-Premio.csproj.CoreCompileInputs.cache
+C:\Programas Mundial\estagioASP.NET\2-Premio\2-Premio\obj\Debug\2-Premio.exe
+C:\Programas Mundial\estagioASP.NET\2-Premio\2-Premio\obj\Debug\2-Premio.pdb

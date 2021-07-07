@@ -285,7 +285,6 @@ namespace ProjetoBebidas
                     qtdCompra = Convert.ToInt32(txtQtd.Text);
                     preco =  qtdCompra * Convert.ToDouble(reader[1].ToString());
                     qtdEstoque = Convert.ToInt32(reader[2].ToString());
-
                     if (Convert.ToInt32(txtQtd.Text) <= qtdEstoque)
                     {
                         dgCarrinho.Rows.Add(bebida, qtdCompra, preco);
