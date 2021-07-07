@@ -12,15 +12,17 @@ namespace _5___Calcular_desconto
         {
             void calcularValorComDescontoFormatado(string val, string desc )
             {
-                string valSemCaracteresNaoNumericos = new string(val.Where(char.IsDigit).ToArray());
-                string descSemCaracteresNaoNumericos = new string(desc.Where(char.IsDigit).ToArray());
+                //string valSemCaracteresNaoNumericos = new string(val.Where(char.IsDigit).ToArray());
+                //string descSemCaracteresNaoNumericos = new string(desc.Where(char.IsDigit).ToArray());
+                string valSemCaracteresNaoNumericos = val.Remove(0, 3);
+                string descSemCaracteresNaoNumericos = desc.Remove(2, 1);
 
-                double valFormatadoDouble = Convert.ToDouble(valSemCaracteresNaoNumericos) / 100;
+                double valFormatadoDouble = Convert.ToDouble(valSemCaracteresNaoNumericos);
                 double descFormatadoDouble = Convert.ToDouble(descSemCaracteresNaoNumericos);
 
                 double descontoAplicado = valFormatadoDouble - valFormatadoDouble * (descFormatadoDouble / 100);
 
-                string descontoAplicatoString = ("R$ " + descontoAplicado + ",00");
+                string descontoAplicatoString = ("R$ " + descontoAplicado.ToString());
 
                 Console.WriteLine("Valor com desconto: " + descontoAplicatoString);
                 Console.Read();
