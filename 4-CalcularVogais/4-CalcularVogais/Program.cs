@@ -12,20 +12,24 @@ namespace _4_CalcularVogais
         {
             void calcularVogal(string frase)
             {
-                char[] vogais = { 'a', 'e', 'i', 'o', 'u' };
-                int contador = 0;
-                for (int i = 0; i < frase.Length; i++)
-                {
-                    for (int j = 0; j < vogais.Length; i++)
-                    {
-                        if (Char.IsLetter(frase[i]) && frase[i] == vogais[j]) 
-                        {
+                int vogal = 0;
+                char[] caracteres = { 'a', 'e', 'i', 'o', 'u' };
 
-                            contador++;
-                        }
+
+                char[] nome_completo = frase.ToLower().ToCharArray();
+
+                for (int conta = 0; conta < nome_completo.Length; conta++)
+                {
+                    if (caracteres.Contains(nome_completo[conta]))
+                    {
+                        vogal++;
                     }
                 }
-                Console.WriteLine(contador);
+
+                Console.WriteLine("Total de vogais: " + vogal);
+                Console.Read();
+
+                Console.ReadKey();
             }
 
             calcularVogal("Luby Software");

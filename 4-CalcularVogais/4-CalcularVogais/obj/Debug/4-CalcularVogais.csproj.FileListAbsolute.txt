@@ -5,3 +5,10 @@ C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\4-CalcularVogais\4-Calcu
 C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\4-CalcularVogais\4-CalcularVogais\obj\Debug\4-CalcularVogais.exe
 C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\4-CalcularVogais\4-CalcularVogais\obj\Debug\4-CalcularVogais.pdb
 C:\Users\lucca\OneDrive - cefet-rj.br\Documentos\GitHub\4-CalcularVogais\4-CalcularVogais\obj\Debug\4-CalcularVogais.csproj.AssemblyReference.cache
+C:\Programas Mundial\estagioASP.NET\4-CalcularVogais\4-CalcularVogais\bin\Debug\4-CalcularVogais.exe.config
+C:\Programas Mundial\estagioASP.NET\4-CalcularVogais\4-CalcularVogais\bin\Debug\4-CalcularVogais.exe
+C:\Programas Mundial\estagioASP.NET\4-CalcularVogais\4-CalcularVogais\bin\Debug\4-CalcularVogais.pdb
+C:\Programas Mundial\estagioASP.NET\4-CalcularVogais\4-CalcularVogais\obj\Debug\4-CalcularVogais.csproj.AssemblyReference.cache
+C:\Programas Mundial\estagioASP.NET\4-CalcularVogais\4-CalcularVogais\obj\Debug\4-CalcularVogais.csproj.CoreCompileInputs.cache
+C:\Programas Mundial\estagioASP.NET\4-CalcularVogais\4-CalcularVogais\obj\Debug\4-CalcularVogais.exe
+C:\Programas Mundial\estagioASP.NET\4-CalcularVogais\4-CalcularVogais\obj\Debug\4-CalcularVogais.pdb
